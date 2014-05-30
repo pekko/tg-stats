@@ -27,9 +27,19 @@ def get_msgs(logfile):
 def count_group(data, keyfunc, filterfunc=None):
     if filterfunc:
         data = filter(filterfunc, data)
+
     data = sorted(data, key=keyfunc)
-    groups = []
     counts = [(k, len(list(g))) for (k,g) in itertools.groupby(data, keyfunc)]
+    return counts
+
+def average(data, groupfunc, countfunc):
+    data = sorted(data, key=groupfunc)
+    counts = []
+    for (k,g) in itertools.groupby(data, groupfunc):
+        numbers = list(map(countfunc, list(g)))
+        avg = sum(numbers) / len(numbers)
+        counts.append((k, avg))
+
     return counts
 
 def percentage(data, keyfunc, filterfunc):
@@ -46,10 +56,10 @@ def _print_table_generic(title, data, formatfunc):
     for r in data:
         print(formatfunc(r))
 
-def print_table(title, data, limit=None):
+def print_table(title, data, limit=None, desc=True):
     if limit == None:
         limit = len(data)
-    data = sorted(data, key=lambda x:x[1], reverse=True)
+    data = sorted(data, key=lambda x:x[1], reverse=desc)
     _print_table_generic(title, data[:limit], lambda x: "%d %s" % (x[1], x[0]))
 
 
@@ -86,6 +96,10 @@ def main():
             and len(x['msg']) > 3
     )
     print_table('Shouters', shout)
+
+    lengths = average(msgs, name, lambda x: len(x['msg']))
+    print_table('Longest messages', lengths, 10)
+    print_table('Shortest messages', lengths, 10, desc=False)
 
 
 if __name__ == '__main__':
