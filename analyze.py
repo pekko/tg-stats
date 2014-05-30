@@ -5,7 +5,7 @@ from collections import defaultdict
 import itertools
 import re
 
-msgrow = re.compile("\[(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+) (?P<hour>\d+):(?P<minutes>\d+)\]  NappiGram (?P<name>.*) (»»»|>>>) (?P<msg>.*)")
+msgrow = re.compile("\[(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+) (?P<hour>\d+):(?P<minutes>\d+)\]  (.*?) (?P<name>.*) (»»»|>>>) (?P<msg>.*)")
 colors = re.compile("\x1b\[\d+(;\d+)?m")
 emoji = re.compile('[^\u0000-\uD7FF\uE000-\uFFFF]')
 
