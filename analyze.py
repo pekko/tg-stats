@@ -62,7 +62,6 @@ def print_table(title, data, limit=None, desc=True):
     data = sorted(data, key=lambda x:x[1], reverse=desc)
     _print_table_generic(title, data[:limit], lambda x: "%d %s" % (x[1], x[0]))
 
-
 def print_table_perc(title, data, limit=None):
     if limit == None:
         limit = len(data)
@@ -77,8 +76,14 @@ def main():
     count_by_name = count_group(msgs, name)
     print_table('Total', count_by_name, 20)
 
-    smileys = percentage(msgs, name, lambda x: ':)' in x['msg'])
-    print_table_perc('Happy people', smileys, 5)
+    happy_smiley = percentage(msgs, name, lambda x: ':)' in x['msg'])
+    print_table_perc('Happy people', happy_smiley, 3)
+
+    sad_smiley = percentage(msgs, name, lambda x: ':(' in x['msg'])
+    print_table_perc('Sad people', sad_smiley, 3)
+
+    questions = percentage(msgs, name, lambda x: x['msg'].endswith('?'))
+    print_table_perc('Asking questions', questions, 3)
 
     def filter_curse(x):
         cursewords = ['vittu', 'vitu', 'saatana', 'helvet', 'perkele', 'paska']
