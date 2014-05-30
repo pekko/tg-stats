@@ -91,7 +91,7 @@ def main():
     print_table_perc('Asking questions', questions, 3)
 
     def filter_curse(x):
-        cursewords = ['vittu', 'vitu', 'saatana', 'helvet', 'perkele', 'paska']
+        cursewords = ['vittu', 'vitu', 'saatana', 'helvet', 'perkele', 'paska', 'jumalaut']
         words = x['msg'].lower().split()
         return any((w.startswith(c) for c in cursewords for w in words))
 
