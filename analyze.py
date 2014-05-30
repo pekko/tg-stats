@@ -66,7 +66,7 @@ def print_table_perc(title, data, limit=None):
     if limit == None:
         limit = len(data)
     data = sorted(data, key=lambda x:x[1], reverse=True)
-    _print_table_generic(title, data[:limit], lambda x: "%.2f%% (%d/%d)\t%s" % (x[1], x[2], x[3], x[0]))
+    _print_table_generic(title, data[:limit], lambda x: "%.0f %% (%d/%d)\t%s" % (x[1]*100, x[2], x[3], x[0]))
 
 def main():
     def name(x): return x['name']
