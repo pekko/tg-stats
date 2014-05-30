@@ -60,7 +60,7 @@ def print_table(title, data, limit=None, desc=True):
     if limit == None:
         limit = len(data)
     data = sorted(data, key=lambda x:x[1], reverse=desc)
-    _print_table_generic(title, data[:limit], lambda x: "%d %s" % (x[1], x[0]))
+    _print_table_generic(title, data[:limit], lambda x: "%d\t%s" % (x[1], x[0]))
 
 def print_table_perc(title, data, limit=None):
     if limit == None:
@@ -90,22 +90,26 @@ def main():
     questions = percentage(msgs, name, lambda x: x['msg'].endswith('?'))
     print_table_perc('Asking questions', questions, 3)
 
-    def filter_curse(x):
+    def has_cursing(x):
         cursewords = ['vittu', 'vitu', 'saatana', 'helvet', 'perkele', 'paska', 'jumalaut']
         words = x['msg'].lower().split()
         return any((w.startswith(c) for c in cursewords for w in words))
 
-    cursing = percentage(msgs, name, filter_curse)
+    cursing = percentage(msgs, name, has_cursing)
     print_table_perc('Cursing', cursing)
 
     night = count_group(msgs, name, lambda x: 0 <= int(x['hour']) <= 5)
     print_table('Night', night, 10)
 
-    shout = count_group(msgs, name, 
-        lambda x: emoji.sub('', x['msg'].upper()) == x['msg'] 
-            and len(x['msg']) > 3
-    )
-    print_table('Shouters', shout)
+    def is_shout(x):
+        if x['msg'].endswith('!'):
+            return True
+        if len(x['msg']) > 3:
+            return emoji.sub('', x['msg'].upper()) == x['msg']
+        return False
+
+    shout = count_group(msgs, name, is_shout)
+    print_table('Shouters', shout, 5)
 
     lengths = average(msgs, name, lambda x: len(x['msg']))
     print_table('Longest messages', lengths, 10)
