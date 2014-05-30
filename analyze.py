@@ -76,6 +76,11 @@ def main():
     count_by_name = count_group(msgs, name)
     print_table('Total', count_by_name, 20)
 
+    threshold = 5
+    count_dict = dict(count_by_name)
+    threshold_msgs = [x for x in msgs if count_dict[x['name']] > threshold]
+    msgs = threshold_msgs
+
     happy_smiley = percentage(msgs, name, lambda x: ':)' in x['msg'])
     print_table_perc('Happy people', happy_smiley, 3)
 
