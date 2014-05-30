@@ -13,13 +13,16 @@ main() {
 	cd "$TG_DIR"
 	./telegram -W < $DIR/tg_pipe > $DIR/output &
 	cd "$DIR"
+	echo "chat_info $chat" > tg_pipe;
+	sleep 2;
+	echo > $DIR/output;
 
 	for i in $(seq $limit -$step 0); do
 		echo -n ".";
 		cmd="history $chat $step $i";
 		# echo $cmd;
 		echo $cmd > tg_pipe;
-		sleep 5;
+		sleep 3;
 	done
 
 	echo "quit" > tg_pipe
