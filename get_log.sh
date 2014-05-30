@@ -1,22 +1,29 @@
 #!/bin/bash
 
-DIR=$(cd $(dirname $0) && pwd)
-TG_DIR="tg"
-LIMIT="5000"
-STEP="100"
+readonly DIR=$(cd $(dirname $0) && pwd)
+readonly TG_DIR="tg"
 
-mkfifo tg_pipe
-cd "$TG_DIR"
-./telegram -W < $DIR/tg_pipe > $DIR/output &
-cd "$DIR"
+main() {
+	local chat=$1
+	local limit="5000"
+	local step="100"
+	local i
 
-for i in $(seq $LIMIT -$STEP 0); do
-	echo -n ".";
-	cmd="history NappiGram $STEP $i";
-	# echo $cmd;
-	echo $cmd > tg_pipe;
-	sleep 5;
-done
+	mkfifo tg_pipe
+	cd "$TG_DIR"
+	./telegram -W < $DIR/tg_pipe > $DIR/output &
+	cd "$DIR"
 
-echo "quit" > tg_pipe
-rm tg_pipe
+	for i in $(seq $limit -$step 0); do
+		echo -n ".";
+		cmd="history $chat $step $i";
+		# echo $cmd;
+		echo $cmd > tg_pipe;
+		sleep 5;
+	done
+
+	echo "quit" > tg_pipe
+	rm tg_pipe
+}
+
+main $1
