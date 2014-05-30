@@ -30,7 +30,7 @@ def count_group(data, keyfunc, filterfunc=None):
     data = sorted(data, key=keyfunc)
     groups = []
     counts = [(k, len(list(g))) for (k,g) in itertools.groupby(data, keyfunc)]
-    return sorted(counts, key=lambda x:x[1], reverse=True)
+    return counts
 
 def percentage(data, keyfunc, filterfunc):
     total = dict(count_group(data, keyfunc))
@@ -86,7 +86,6 @@ def main():
             and len(x['msg']) > 3
     )
     print_table('Shouters', shout)
-
 
 
 if __name__ == '__main__':
