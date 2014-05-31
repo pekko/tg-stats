@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.3
 # coding: utf-8
 
-from collections import defaultdict
 import itertools
 import re
 
