@@ -12,6 +12,9 @@ emoji = re.compile('[^\u0000-\uD7FF\uE000-\uFFFF]')
 def strip_colors(s):
     return colors.sub('', s)
 
+def strip_emoji(s):
+    return emoji.sub('', s)
+
 def parse_row(row):
     plain = strip_colors(row.rstrip())
     match = msgrow.match(plain)
@@ -104,7 +107,7 @@ def main():
         if x['msg'].endswith('!'):
             return True
         if len(x['msg']) > 3:
-            return emoji.sub('', x['msg'].upper()) == x['msg']
+            return strip_emoji(x['msg']).upper() == x['msg']
         return False
 
     shout = count_group(msgs, name, is_shout)
