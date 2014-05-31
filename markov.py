@@ -44,25 +44,29 @@ class TgMarkov(object):
 
         return chain
 
-    def run(self, length=10):
-        user = random.choice(list(self.table.keys()))
+    def run(self, length=10, user=None):
+        if user == None:
+            user = random.choice(list(self.table.keys()))
+
+        s = ""
         for i in range(length):
             user = random.choice(self.user_table[user])
             chain = self.table[user]
             word = self.START
 
-            s = "%s:" % (user)
+            s += "%s:" % (user)
             while word != self.STOP:
                 word = random.choice(chain[word])
                 if len(word) > 1:
                     s += ' '
                 s += word
-            print(s)
+            s += "\n"
+        return s
 
 def main():
     msgs = get_msgs('output')
     markov = TgMarkov(msgs)
-    markov.run(10)
+    print(markov.run(10))
 
 
 if __name__ == '__main__':
