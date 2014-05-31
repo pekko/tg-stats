@@ -1,0 +1,48 @@
+<!doctype html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script>
+	var url="http://127.0.0.1:1337/";
+	var q = [];
+
+	function get(user) {
+		if(!user) user = "";
+
+		$.getJSON(url+user, function(resp) {
+			resp.forEach(function(x) {
+				q.push("<div class='user'>"+x[0]+"</div><div class='msg'>" + x[1] +"</div>");
+			});
+		});
+	}
+
+	function q_print() {
+		tolerance = 50;
+		if($(window).scrollTop() + $(window).height() + tolerance >= document.body.scrollHeight) {
+			var scroll = true;
+		}
+		$("#log").append(q.shift());
+		if(scroll) window.scrollTo(0,document.body.scrollHeight);
+	}
+
+	$(function() {
+		get();
+		msg_interval = 2;
+		window.setInterval(get, msg_interval*10*1000);
+		window.setInterval(q_print, msg_interval*1000);
+	});
+	</script>
+	<style>
+	#log {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+	.user {
+		color: #336;
+		margin-top: 1em;
+	}
+	</style>
+</head>
+<body>
+	<div id="log"></div>
+	<div id="footer"></div>
+</body>

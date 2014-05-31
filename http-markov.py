@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.3
 # coding: utf-8
 
+import json
 import http.server
 import urllib.parse
 
@@ -14,11 +15,15 @@ class MarkovHandler(http.server.BaseHTTPRequestHandler):
 		def p(s):
 			self.wfile.write(s.encode('utf-8'))
 		self.send_response(200)
+		self.send_header("Access-Control-Allow-Origin", "*")
+		self.send_header("Content-type", "text/html; charset=utf-8")
 		self.end_headers()
 
 		user = urllib.parse.unquote(self.path[1:])
-		p(user+"\n")
-		p(tg_markov.run(10, user))
+		if user == '':
+			user = None
+
+		p(json.dumps(list(tg_markov.run(10, user))))
 
 def main():
 	global tg_markov
