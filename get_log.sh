@@ -3,6 +3,11 @@
 readonly DIR=$(cd $(dirname $0) && pwd)
 readonly TG_DIR="tg"
 
+usage() {
+	echo "Usage: $0 chat_name"
+	exit 1
+}
+
 main() {
 	local chat=$1
 	local limit="5000"
@@ -29,4 +34,7 @@ main() {
 	rm tg_pipe
 }
 
+if [ -z "$1" ]; then
+	usage
+fi
 main $1
