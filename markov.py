@@ -59,7 +59,7 @@ class TgMarkov(object):
                 if len(word) > 1:
                     s += ' '
                 s += word
-            yield (user, s.strip())
+            yield (user, s[:-1].strip())
 
 def main():
     msgs = get_msgs('output')

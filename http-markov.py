@@ -16,14 +16,14 @@ class MarkovHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(s.encode('utf-8'))
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Content-type", "text/html; charset=utf-8")
+        self.send_header("Content-type", "application/json; charset=utf-8")
         self.end_headers()
 
         user = urllib.parse.unquote(self.path[1:])
         if user == '':
             user = None
 
-        p(json.dumps(list(tg_markov.run(10, user))))
+        p(json.dumps(list(tg_markov.run(10, user)), ensure_ascii=False))
 
 def main(port):
     global tg_markov
