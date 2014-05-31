@@ -59,11 +59,6 @@ class TgMarkov(object):
                 s += word
             print(s)
 
-    def __str__(self):
-        # return str(self.table['Pipsa Haavisto'])
-        return str(self.table['Pekko Lipsanen'])
-
-
 def main():
     msgs = get_msgs('output')
     markov = TgMarkov(msgs)
