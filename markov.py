@@ -48,25 +48,24 @@ class TgMarkov(object):
         if user == None:
             user = random.choice(list(self.table.keys()))
 
-        s = ""
         for i in range(length):
             user = random.choice(self.user_table[user])
             chain = self.table[user]
             word = self.START
 
-            s += "%s:" % (user)
+            s = ""
             while word != self.STOP:
                 word = random.choice(chain[word])
                 if len(word) > 1:
                     s += ' '
                 s += word
-            s += "\n"
-        return s
+            yield (user, s.strip())
 
 def main():
     msgs = get_msgs('output')
     markov = TgMarkov(msgs)
-    print(markov.run(10))
+    for (u,s) in markov.run(10):
+        print("%s: %s" % (u,s))
 
 
 if __name__ == '__main__':
