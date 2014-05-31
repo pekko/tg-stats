@@ -31,7 +31,7 @@ class TgMarkov(object):
         chain = defaultdict(list)
         
         for m in msgs:
-            text = m['msg'].replace('.', self.STOP)
+            text = m['msg']
             
             words = re.split('([\s\.,!\?])', text)
             words = (w.strip() for w in words)
