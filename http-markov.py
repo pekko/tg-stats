@@ -3,6 +3,7 @@
 
 import json
 import http.server
+import os
 import urllib.parse
 
 import analyze
@@ -34,6 +35,13 @@ class MarkovHandler(http.server.BaseHTTPRequestHandler):
 
         p(json.dumps(out, ensure_ascii=False))
 
+    def log_message(self, format, *args):
+        f = open('http-markov.log', 'a')
+        f.write(self.log_date_time_string()+" ")
+        f.write(format % args)
+        f.write("\n")
+        f.close()
+
 def main(port):
     global tg_markov
 
@@ -41,11 +49,12 @@ def main(port):
     tg_markov = markov.TgMarkov(msgs)
 
     httpd = http.server.HTTPServer(('', port), MarkovHandler)
-    try:
+    pid = os.fork()
+    if pid == 0:
+        pidfile = open('http-markov.pid', 'w')
+        pidfile.write(str(os.getpid()))
+        pidfile.close()
         httpd.serve_forever()
-    except KeyboardInterrupt:
-        httpd.server_close()
-
 
 if __name__ == '__main__':
     import sys

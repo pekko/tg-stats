@@ -1,4 +1,6 @@
 .DS_Store
 tg
+*.log
+*.pid
 *.pyc
 output
