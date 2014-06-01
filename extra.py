@@ -20,11 +20,12 @@ def swap_filtered(text, func):
 
 def alter_little(text, *, seed=None):
     random.seed(seed)
-    for i in range(random.randint(1,4)):
+    for i in range(random.randint(1,3)):
         if random.randint(0,1) == 0:
             text = swap_filtered(text, is_vowel)
         else:
             text = swap_filtered(text, is_cons)
+    random.seed(None)
     return text
 
 def main():
