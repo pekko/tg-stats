@@ -15,3 +15,6 @@ Usage
 -----
 - `get_log.sh` gets the discussions. First parameter is the chat identifier, e.g. `./get_log.sh ChatRoom`
 - `analyze.py` generates the stats and prints to stdout
+- `markov.py` simulates the dicussion using Markov chains
+- `http-markov.py port` launches a http server for simulation
+    - .. which can be used via `html/markov.htm`
