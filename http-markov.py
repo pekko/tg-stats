@@ -7,6 +7,7 @@ import urllib.parse
 
 import analyze
 import markov
+import extra
 
 tg_markov = None
 
@@ -19,11 +20,19 @@ class MarkovHandler(http.server.BaseHTTPRequestHandler):
         self.send_header("Content-type", "application/json; charset=utf-8")
         self.end_headers()
 
-        user = urllib.parse.unquote(self.path[1:])
+        (seed,user) = [urllib.parse.unquote(x) for x in self.path[1:].split("/")]
         if user == '':
             user = None
 
-        p(json.dumps(list(tg_markov.run(10, user)), ensure_ascii=False))
+        msgs = tg_markov.run(10, user)
+        altered_names = {}
+        out = []
+        for (name, msg) in msgs:
+            if name not in altered_names:
+                altered_names[name] = extra.alter_little(name, seed=seed).title()
+            out.append((altered_names[name], msg))
+
+        p(json.dumps(out, ensure_ascii=False))
 
 def main(port):
     global tg_markov

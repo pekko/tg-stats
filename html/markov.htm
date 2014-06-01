@@ -4,11 +4,12 @@
 	<script>
 	var url="http://127.0.0.1:1337/";
 	var q = [];
+	var seed = parseInt(Math.random()*1000000)
 
 	function get(user) {
 		if(!user) user = "";
 
-		$.getJSON(url+user, function(resp) {
+		$.getJSON(url+seed+"/"+user, function(resp) {
 			resp.forEach(function(x) {
 				q.push("<div class='user'>"+x[0]+"</div><div class='msg'>" + x[1] +"</div>");
 			});
