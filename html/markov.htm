@@ -21,13 +21,16 @@
 		if($(window).scrollTop() + $(window).height() + tolerance >= document.body.scrollHeight) {
 			var scroll = true;
 		}
-		$("#log").append(q.shift());
-		if(scroll) window.scrollTo(0,document.body.scrollHeight);
+		window.setTimeout(function() {
+			$("#log").append(q.shift());
+			if(scroll) window.scrollTo(0,document.body.scrollHeight);
+		}, Math.random()*3*1000);
 	}
 
 	$(function() {
 		get();
-		msg_interval = 2;
+		window.setTimeout(q_print, 1000);
+		var msg_interval = 3;
 		window.setInterval(get, msg_interval*10*1000);
 		window.setInterval(q_print, msg_interval*1000);
 	});
@@ -50,7 +53,7 @@
 		margin: 0 auto;
 	}
 	.user {
-		color: #336;
+		color: #6f7274;
 		margin-top: 1em;
 	}
 	.msg {
