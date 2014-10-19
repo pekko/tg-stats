@@ -29,10 +29,10 @@
 	$(function() {
 		get();
 		window.setTimeout(queue_print, 1000);
-		
+
 		var msg_interval = 3;
 		window.setInterval(get, msg_interval*10*1000);
-		window.setInterval(q_print, msg_interval*1000);
+		window.setInterval(queue_print, msg_interval*1000);
 	});
 	</script>
 	<style>
