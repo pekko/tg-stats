@@ -10,7 +10,7 @@ usage() {
 
 main() {
 	local chat=$1
-	local limit="5000"
+	local limit="15000"
 	local step="100"
 	local i
 
