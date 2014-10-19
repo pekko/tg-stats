@@ -58,7 +58,7 @@ def main(port):
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) > 2:
-        print("Usage: %s port")
+    if len(sys.argv) != 2:
+        print("Usage: %s port" % sys.argv[0])
         sys.exit()
     main(int(sys.argv[1]))
