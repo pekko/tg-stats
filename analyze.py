@@ -12,11 +12,18 @@ emoji = re.compile('[^\u0000-\uD7FF\uE000-\uFFFF]')
 def strip_colors(s):
     return colors.sub('', s)
 
+def strip_nonprintable(s):
+    return ''.join(c for c in s if ord(c) >= 0x20)
+
 def strip_emoji(s):
     return emoji.sub('', s)
 
 def parse_row(row):
-    plain = strip_colors(row.rstrip())
+    plain = strip_nonprintable(
+        strip_colors(
+            row.rstrip()
+        )
+    )
     match = msgrow.match(plain)
     if match == None:
         return None
