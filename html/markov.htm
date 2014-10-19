@@ -2,34 +2,34 @@
 <head>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script>
-	var url="http://127.0.0.1:1337/";
-	var q = [];
+	var queue = [];
 	var seed = parseInt(Math.random()*1000000)
 
 	function get(user) {
 		if(!user) user = "";
 
-		$.getJSON(url+seed+"/"+user, function(resp) {
+		$.getJSON("/"+seed+"/"+user, function(resp) {
 			resp.forEach(function(x) {
-				q.push("<div class='user'>"+x[0]+"</div><div class='msg'>" + x[1] +"</div>");
+				queue.push("<div class='user'>"+x[0]+"</div><div class='msg'>" + x[1] +"</div>");
 			});
 		});
 	}
 
-	function q_print() {
+	function queue_print() {
 		tolerance = 50;
 		if($(window).scrollTop() + $(window).height() + tolerance >= document.body.scrollHeight) {
 			var scroll = true;
 		}
 		window.setTimeout(function() {
-			$("#log").append(q.shift());
+			$("#log").append(queue.shift());
 			if(scroll) window.scrollTo(0,document.body.scrollHeight);
 		}, Math.random()*3*1000);
 	}
 
 	$(function() {
 		get();
-		window.setTimeout(q_print, 1000);
+		window.setTimeout(queue_print, 1000);
+		
 		var msg_interval = 3;
 		window.setInterval(get, msg_interval*10*1000);
 		window.setInterval(q_print, msg_interval*1000);

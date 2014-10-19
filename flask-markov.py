@@ -17,12 +17,9 @@ app = Flask(__name__)
 def main():
     return open('html/markov.htm').read()
 
-@app.route("/<seed>")
-def json_messages(seed):
-    return json_messages_user(seed, None)
-
+@app.route("/<seed>/")
 @app.route("/<seed>/<user>")
-def json_messages_user(seed, user):
+def json_messages_user(seed, user=None):
     msgs = tg_markov.run(10, user)
     altered_names = {}
     out = []
