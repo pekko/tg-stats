@@ -19,7 +19,7 @@ class TgMarkov(object):
         prev = None
         for m in msgs:
             if prev:
-                self.user_table[m['name']].append(prev)
+                self.user_table[prev].append(m['name'])
             prev = m['name']
 
         namefunc = lambda x: x['name']
